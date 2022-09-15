@@ -1,0 +1,17 @@
+{
+	"info": {
+		"_postman_id": "d6befa9b-25ca-4dbd-912a-e38d9c1a535c",
+		"name": "LogsToJSON",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Fetch log Data to Single Object",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
