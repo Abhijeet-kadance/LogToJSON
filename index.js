@@ -51,7 +51,13 @@ app.get("/storing", (req, res) => {
     });
   }
   function callbackFunc(result) {
-    console.log("Result ", result);
+    //console.log("Result ", JSON.stringify(result));
+    const data2 = JSON.stringify(result)
+    fs.writeFile('Data.json', data2, (err) => {
+      
+      // In case of a error throw err.
+      if (err) throw err;
+  })
 
   }
   readFiles(callbackFunc);
