@@ -8,10 +8,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/",(req,res)=>{
-    
-})
-
 app.get("/storing",(req,res)=>{
   
     function readFiles(dirname, onFileContent, onError) {
@@ -22,7 +18,7 @@ app.get("/storing",(req,res)=>{
           onError(err);
           return;
         }
-        console.log("Files : \n",filenames)
+        // console.log("Files : \n",filenames)
   
         // Traverse the Logs directory and read files inside the directory and store to some Json Object 
         filenames.forEach(function(filename) {
@@ -57,15 +53,22 @@ app.get("/storing",(req,res)=>{
                   data: SingleLineData,
                 };
             
-                console.log(jsonData);
-            
+                //console.log(jsonData);
+                return jsonData;
               });
           });
         });
       });
-    
     }
-    readFiles()
+    let JSONdata = readFiles()
+
+    console.log(JSONdata)
+
+  //   fs.writeFile('Output.txt', data, (err) => {
+      
+  //     // In case of a error throw err.
+  //     if (err) throw err;
+  // })
   })
 
 
