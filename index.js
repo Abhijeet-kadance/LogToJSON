@@ -1,12 +1,41 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+var JSSoup = require("jssoup").default;
 var cors = require("cors");
 const fs = require("fs");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/htmltojson", (req, res) => {
+  fs.readdir("./docs", function (err, filenames) {
+    if (err) {
+      // onError(err);
+      return;
+    }
+    console.log(filenames);
+    filenames.forEach(function (filename) {
+      //console.log(content)
+      fs.readFile("docs\\" + filename, "utf-8", (err, data) => {
+        if (err) throw err;
+        const unsortedHtmlData = data;
+
+        var soup = new JSSoup(unsortedHtmlData);
+        var tag = soup.find("title");
+        // console.log(tag);
+        tag.name = "title";
+        console.log("#"+tag.getText());
+
+        var body = soup.find('body');
+        console.log("data:"+body.getText())
+      });
+    });
+  });
+
+  //End of API
+});
 
 app.get("/storing", (req, res) => {
   function readFiles(callbackFunc) {
@@ -45,6 +74,11 @@ app.get("/storing", (req, res) => {
             data: SingleLineData,
           };
           data1.push(jsonData);
+          const data2 = JSON.stringify(jsonData);
+          fs.appendFile("Data.json", data2 + "\n", (err) => {
+            // In case of a error throw err.
+            if (err) throw err;
+          });
           callbackFunc(data1);
         });
       });
@@ -52,13 +86,12 @@ app.get("/storing", (req, res) => {
   }
   function callbackFunc(result) {
     //console.log("Result ", JSON.stringify(result));
-    const data2 = JSON.stringify(result)
-    fs.writeFile('Data.json', data2, (err) => {
-      
-      // In case of a error throw err.
-      if (err) throw err;
-  })
+    const data2 = JSON.stringify(result);
+    //   fs.writeFile('Data.json', data2, (err) => {
 
+    //     // In case of a error throw err.
+    //     if (err) throw err;
+    // })
   }
   readFiles(callbackFunc);
 });
