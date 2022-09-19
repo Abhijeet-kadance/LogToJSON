@@ -10,11 +10,13 @@ print(soup.title.string)
 # Get the whole body tag
 tag = soup.body
 output = ""
+
 # Print each string recursively
 for string in tag.strings:
     file1 = open("myfile.txt", "a",encoding="utf-8")
     if not string.isspace():
-            file1.write(string)
+            file1.write(string.strip())
     file1.close()
+    
     print(string)
     
